@@ -1,11 +1,6 @@
 import { type NextPage } from "next";
 import Head from "next/head";
-import {
-  useUser,
-  SignInButton,
-  SignUpButton,
-  SignOutButton,
-} from "@clerk/nextjs";
+import { useUser, SignInButton, SignOutButton } from "@clerk/nextjs";
 import { api } from "~/utils/api";
 
 const Home: NextPage = () => {
@@ -26,11 +21,6 @@ const Home: NextPage = () => {
         )}
         {!user.isSignedIn && (
           <>
-            <SignUpButton mode="modal">
-              <button className="btn border-zinc-300 text-white">
-                Register
-              </button>
-            </SignUpButton>
             <SignInButton mode="modal">
               <button className="btn border-zinc-300 text-white">
                 Sign In
