@@ -22,6 +22,9 @@ const Home: NextPage = () => {
       </Head>
       <main className="flex min-h-screen flex-col items-center justify-center bg-gradient-to-b from-[#2e026d] to-[#15162c]">
         <h1 className="text-white">Emitter App!</h1>
+        {!!user.isSignedIn && (
+          <p className="text-white">Welcome {user.user.username}</p>
+        )}
         {!user.isSignedIn && (
           <>
             <SignUpButton mode="modal">
