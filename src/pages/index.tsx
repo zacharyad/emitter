@@ -4,8 +4,10 @@ import { useUser, SignInButton, SignOutButton } from "@clerk/nextjs";
 import { api } from "~/utils/api";
 
 const Home: NextPage = () => {
-  const hello = api.example.hello.useQuery({ text: "from tRPC" });
+  const { data } = api.posts.getAll.useQuery();
   const user = useUser();
+
+  console.log("Hey, ", data);
 
   return (
     <>
@@ -33,6 +35,16 @@ const Home: NextPage = () => {
             <button className="btn border-zinc-300 text-white">Sign Out</button>
           </SignOutButton>
         )}
+
+        {data?.map(({ content, id }) => {
+          return (
+            <>
+              <p className="text-white" key={id}>
+                {content}
+              </p>
+            </>
+          );
+        })}
       </main>
     </>
   );
