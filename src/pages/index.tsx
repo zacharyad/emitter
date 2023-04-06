@@ -4,13 +4,28 @@ import { useUser, SignInButton, SignOutButton } from "@clerk/nextjs";
 import { api } from "~/utils/api";
 import PostView from "~/Components/PostView";
 import CreatePostWizard from "~/Components/CreatePostWizard";
+import LoadingPage from "../Components/loading";
+import { isWeakMap } from "util/types";
+
+const Feed = () => {
+  const { data, isLoading: postsLoading } = api.posts.getAll.useQuery();
+
+  if (postsLoading) return <LoadingPage />;
+
+  if (!data) return <div>Somthing went wrong fetching posts</div>;
+
+  {
+    return data?.map((fullPost) => {
+      return <PostView {...fullPost} key={fullPost.post.id} />;
+    });
+  }
+};
 
 const Home: NextPage = () => {
-  const { data, isLoading } = api.posts.getAll.useQuery();
-  const user = useUser();
+  const { isLoaded: userLoaded, isSignedIn } = useUser();
+  api.posts.getAll.useQuery();
 
-  if (isLoading) return <div>Loading...</div>;
-  if (!data) return <div>Something went wrong on out end... Sorry champ.</div>;
+  if (!userLoaded) return <div />;
 
   return (
     <>
@@ -22,7 +37,7 @@ const Home: NextPage = () => {
       <main className="flex h-screen justify-center">
         <div className="h-full w-screen border-x border-slate-400 md:max-w-2xl">
           <h1 className="justify-self-end text-white">Emitter App!</h1>
-          {!!user.isSignedIn && (
+          {!!isSignedIn && (
             <SignOutButton>
               <button className="btn border-zinc-300 text-white">
                 Sign Out
@@ -30,8 +45,8 @@ const Home: NextPage = () => {
             </SignOutButton>
           )}
           <div className="flex w-full border-b p-4">
-            {!!user.isSignedIn && <CreatePostWizard />}
-            {!user.isSignedIn && (
+            {isSignedIn && <CreatePostWizard />}
+            {!isSignedIn && (
               <>
                 <SignInButton mode="modal">
                   <button className="btn border-zinc-300 text-white">
@@ -41,10 +56,7 @@ const Home: NextPage = () => {
               </>
             )}
           </div>
-
-          {data?.map((fullPost) => {
-            return <PostView {...fullPost} key={fullPost.post.id} />;
-          })}
+          <Feed />
         </div>
       </main>
     </>
