@@ -13,12 +13,13 @@ const Feed = () => {
   if (postsLoading) return <LoadingPage />;
 
   if (!data) return <div>Somthing went wrong fetching posts</div>;
-
-  {
-    return data?.map((fullPost) => {
-      return <PostView {...fullPost} key={fullPost.post.id} />;
-    });
-  }
+  return (
+    <>
+      {data?.map((fullPost) => {
+        return <PostView {...fullPost} key={fullPost.post.id} />;
+      })}
+    </>
+  );
 };
 
 const Home: NextPage = () => {
