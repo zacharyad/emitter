@@ -2,28 +2,12 @@ import { type NextPage } from "next";
 import Head from "next/head";
 import { useUser, SignInButton, SignOutButton } from "@clerk/nextjs";
 import { api } from "~/utils/api";
-import PostView from "~/Components/PostView";
 import CreatePostWizard from "~/Components/CreatePostWizard";
-import LoadingPage from "../Components/loading";
-import { isWeakMap } from "util/types";
-
-const Feed = () => {
-  const { data, isLoading: postsLoading } = api.posts.getAll.useQuery();
-
-  if (postsLoading) return <LoadingPage />;
-
-  if (!data) return <div>Somthing went wrong fetching posts</div>;
-  return (
-    <>
-      {data?.map((fullPost) => {
-        return <PostView {...fullPost} key={fullPost.post.id} />;
-      })}
-    </>
-  );
-};
+import Feed from "~/Components/Feed";
 
 const Home: NextPage = () => {
   const { isLoaded: userLoaded, isSignedIn } = useUser();
+  // eagerly running this so it is cached and able to be used in the Feed Component
   api.posts.getAll.useQuery();
 
   if (!userLoaded) return <div />;
