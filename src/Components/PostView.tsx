@@ -3,6 +3,7 @@ import Image from "next/image";
 import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
 
+// day.js setup
 dayjs.extend(relativeTime);
 
 type postWithUser = RouterOutputs["posts"]["getAll"][number];
@@ -26,7 +27,7 @@ const PostView = (props: postWithUser) => {
             post?.createdAt
           ).fromNow()}`}</span>
         </div>
-        <p className="text-white">{post?.content}</p>
+        <p className="text-3xl text-white">{post?.content}</p>
       </div>
     </div>
   );

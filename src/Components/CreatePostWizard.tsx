@@ -1,7 +1,14 @@
 import { useUser } from "@clerk/nextjs";
 import Image from "next/image";
+import { api } from "~/utils/api";
+import { useState } from "react";
+
 const CreatePostWizard = () => {
   const { user } = useUser();
+  const [input, setInput] = useState("");
+  const { mutate } = api.posts.create.useMutation();
+
+  const submitPost = () => {};
 
   if (!user) return null;
   console.log(user);
@@ -19,7 +26,10 @@ const CreatePostWizard = () => {
         type="text"
         placeholder="Type some emojis..."
         className="w-11/12 grow bg-transparent p-4"
+        value={input}
+        onChange={(e) => setInput(e.target.value)}
       />
+      <button onClick={() => mutate({ content: input })}>Submit</button>
     </div>
   );
 };

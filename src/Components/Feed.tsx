@@ -12,7 +12,7 @@ const Feed = () => {
 
   return (
     <>
-      {data?.map((fullPost) => {
+      {data.map((fullPost) => {
         return <PostView {...fullPost} key={fullPost.post.id} />;
       })}
     </>
