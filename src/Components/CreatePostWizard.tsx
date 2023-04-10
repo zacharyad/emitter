@@ -8,8 +8,6 @@ const CreatePostWizard = () => {
   const [input, setInput] = useState("");
   const { mutate } = api.posts.create.useMutation();
 
-  const submitPost = () => {};
-
   if (!user) return null;
   console.log(user);
 
