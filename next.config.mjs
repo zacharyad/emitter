@@ -8,9 +8,23 @@
 const config = {
   reactStrictMode: true,
   images: {
-    domains: ["images.clerk.dev"],
+    remotePatterns: [
+      {
+        protocol: "https",
+        hostname: "www.gravatar.com",
+        // You can add these as well
+        // port: '',
+        // pathname: 'arifscloud/image/upload/**',
+      },
+      {
+        protocol: "https",
+        hostname: "images.clerk.dev",
+        // You can add these as well
+        // port: '',
+        // pathname: 'arifscloud/image/upload/**',
+      },
+    ],
   },
-
   /**
    * If you have the "experimental: { appDir: true }" setting enabled, then you
    * must comment the below `i18n` config out.
