@@ -1,6 +1,6 @@
 import { type NextPage } from "next";
 import Head from "next/head";
-import { useUser, SignInButton, SignOutButton } from "@clerk/nextjs";
+import { useUser, SignInButton, SignOutButton, SignIn } from "@clerk/nextjs";
 import { api } from "~/utils/api";
 import CreatePostWizard from "~/Components/CreatePostWizard";
 import Feed from "~/Components/Feed";
