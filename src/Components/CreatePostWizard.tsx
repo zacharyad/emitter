@@ -2,7 +2,8 @@ import { useUser } from "@clerk/nextjs";
 import Image from "next/image";
 import { api } from "~/utils/api";
 import { EventHandler, useState } from "react";
-
+import toast from "react-hot-toast";
+import { LoadingSpinner } from "../Components/loading";
 const CreatePostWizard = () => {
   const { user } = useUser();
   const [input, setInput] = useState("");
@@ -12,13 +13,44 @@ const CreatePostWizard = () => {
       setInput("");
       void ctx.posts.getAll.invalidate();
     },
+    onError: (e) => {
+      const errorMessage = e.data?.zodError?.fieldErrors.content;
+
+      if (errorMessage && errorMessage[0]) {
+        toast.error(errorMessage[0], {
+          duration: 3000,
+          position: "bottom-center",
+          // Custom Icon
+          icon: "🙀",
+
+          // Change colors of success/error/loading icon
+          iconTheme: {
+            primary: "#000",
+            secondary: "#232323",
+          },
+        });
+      } else {
+        toast.error("Failed to post. Sorry, please post again later.", {
+          duration: 3000,
+          position: "bottom-center",
+          // Custom Icon
+          icon: "🙀",
+
+          // Change colors of success/error/loading icon
+          iconTheme: {
+            primary: "#000",
+            secondary: "#232323",
+          },
+        });
+      }
+    },
   });
 
   if (!user) return null;
   console.log(user);
 
   return (
-    <div className="flex w-full gap-3">
+    <div className="flex w-full gap-3 border-yellow-50">
       <Image
         src={user?.profileImageUrl}
         alt={`Users profile image`}
@@ -29,12 +61,25 @@ const CreatePostWizard = () => {
       <input
         type="text"
         placeholder="Type some emojis..."
-        className="w-11/12 grow bg-transparent p-4"
+        className={`w-11/12 grow bg-transparent p-4 ${
+          isPosting && "animate-bounce"
+        }`}
         value={input}
         onChange={(e) => setInput(e.target.value)}
+        onKeyDown={({ key }) => {
+          if (key === "Enter") mutate({ content: input });
+        }}
         disabled={isPosting}
       />
-      <button onClick={() => mutate({ content: input })}>Submit</button>
+      {input !== "" && !isPosting && (
+        <button onClick={() => mutate({ content: input })}>Submit</button>
+      )}
+
+      {isPosting && (
+        <div className="flex items-center justify-center">
+          <LoadingSpinner size={20} />
+        </div>
+      )}
     </div>
   );
 };
