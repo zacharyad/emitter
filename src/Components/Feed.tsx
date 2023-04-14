@@ -4,7 +4,7 @@ import { api } from "~/utils/api";
 
 const Feed = () => {
   // actually from cached data, If it is not different from previous call to it
-  const { data, isLoading: postsLoading } = api.posts.getAll.useQuery();
+  const { data, isLoading: postsLoading } = api.postsRouter.getAll.useQuery();
 
   if (postsLoading) return <LoadingPage />;
 

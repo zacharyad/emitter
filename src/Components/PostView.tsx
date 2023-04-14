@@ -7,7 +7,7 @@ import relativeTime from "dayjs/plugin/relativeTime";
 // day.js setup
 dayjs.extend(relativeTime);
 
-type postWithUser = RouterOutputs["posts"]["getAll"][number];
+type postWithUser = RouterOutputs["postsRouter"]["getAll"][number];
 
 const PostView = (props: postWithUser) => {
   const { post, author } = props;

@@ -8,18 +8,14 @@ import Feed from "~/Components/Feed";
 const PostPage: NextPage = () => {
   const { isLoaded: userLoaded, isSignedIn } = useUser();
   // eagerly running this so it is cached and able to be used in the Feed Component
-  api.posts.getAll.useQuery();
+  api.postsRouter.getAll.useQuery();
 
   if (!userLoaded) return <div />;
 
   return (
     <>
       <Head>
-        <title>Emitter Post Look</title>
-        <meta
-          name="description"
-          content="This is a twitter clone using emojis based on tutorial to test out t3 stack"
-        />
+        <title>Post View</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <main className="flex h-screen justify-center">

@@ -1,14 +1,11 @@
-import type {User} from "@clerk/nextjs/dist/api"
 import { clerkClient } from "@clerk/nextjs/server";
 import { TRPCError } from "@trpc/server";
 import { z } from "zod";
 import { createTRPCRouter, privateProcedure, publicProcedure } from "~/server/api/trpc";
 import { Redis } from "@upstash/redis";
 import { Ratelimit } from "@upstash/ratelimit"; // for deno: see above
+import {filterUserForClient} from '../../helper'
 
-const filterUserForClient = (user: User) => {
-    return {id: user.id, username: user.username, profileImageUrl: user.profileImageUrl}
-}
 
 
 // Create a new ratelimiter, that allows 3 requests per 1 min
@@ -24,7 +21,7 @@ const ratelimit = new Ratelimit({
  prefix: "@upstash/ratelimit",
 });
 
-export const posts = createTRPCRouter({
+export const postsRouter = createTRPCRouter({
     // puplicProcedure is for a non secure route
     getAll: publicProcedure.query(async ({ ctx }) => {
         const posts = await ctx.prisma.post.findMany({take:100, orderBy: [{createdAt: "desc"}]});

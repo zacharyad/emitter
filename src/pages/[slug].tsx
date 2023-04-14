@@ -6,16 +6,19 @@ import CreatePostWizard from "~/Components/CreatePostWizard";
 import Feed from "~/Components/Feed";
 
 const ProfilePage: NextPage = () => {
-  const { isLoaded: userLoaded, isSignedIn } = useUser();
-  // eagerly running this so it is cached and able to be used in the Feed Component
-  api.posts.getAll.useQuery();
+  const { data, isLoading } = api.profileRouter.getUserByUsername.useQuery({
+    username: "matd",
+  });
 
-  if (!userLoaded) return <div />;
+  if (isLoading) return <div>Loading...</div>;
+  if (!data) return <div>404</div>;
+
+  console.log("DATA: ", data);
 
   return (
     <>
       <Head>
-        <title>Emitter Profile</title>
+        <title>{`${data.username}'s Profile Page`}</title>
         <meta
           name="description"
           content="This is a twitter clone using emojis based on tutorial to test out t3 stack"
@@ -23,29 +26,8 @@ const ProfilePage: NextPage = () => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <main className="flex h-screen justify-center">
-        <div className="h-full w-screen border-x border-slate-400 md:max-w-2xl">
-          <h1 className="justify-self-end text-white">Emitter App!</h1>
-          {!!isSignedIn && (
-            <SignOutButton>
-              <button className="btn border-zinc-300 text-white">
-                Sign Out
-              </button>
-            </SignOutButton>
-          )}
-          <div className="flex w-full border-b p-4">
-            {!isSignedIn && (
-              <>
-                <SignInButton mode="modal">
-                  <button className="btn border-zinc-300 text-white">
-                    Sign In
-                  </button>
-                </SignInButton>
-              </>
-            )}
-          </div>
-          {/* The content Area */}
-          <p>Profile Page</p>
-        </div>
+        {/* The content Area */}
+        <p>{`${data.username}'s Profile Page`}</p>
       </main>
     </>
   );
