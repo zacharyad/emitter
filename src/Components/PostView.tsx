@@ -25,8 +25,8 @@ const PostView = (props: postWithUser) => {
       </Link>
       <div>
         <div className="font-bold text-slate-300">
-          <Link href={`/@${author.username}`}>
-            <span>@{author?.username}</span>
+          <Link href={`${"/@" + author.username || ""}`}>
+            <span>@{author?.username || "User"}</span>
           </Link>
           <Link href={`/post/${post.id}`}>
             <span className="text-sm font-thin">{` - ${dayjs(

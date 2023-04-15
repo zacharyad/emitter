@@ -1,17 +1,18 @@
 import { useUser } from "@clerk/nextjs";
 import Image from "next/image";
 import { api } from "~/utils/api";
-import { EventHandler, useState } from "react";
+import { useState } from "react";
 import toast from "react-hot-toast";
 import { LoadingSpinner } from "../Components/loading";
+
 const CreatePostWizard = () => {
   const { user } = useUser();
   const [input, setInput] = useState("");
   const ctx = api.useContext();
-  const { mutate, isLoading: isPosting } = api.posts.create.useMutation({
+  const { mutate, isLoading: isPosting } = api.postsRouter.create.useMutation({
     onSuccess: () => {
       setInput("");
-      void ctx.posts.getAll.invalidate();
+      void ctx.postsRouter.getAll.invalidate();
     },
     onError: (e) => {
       const errorMessage = e.data?.zodError?.fieldErrors.content;
@@ -61,9 +62,7 @@ const CreatePostWizard = () => {
       <input
         type="text"
         placeholder="Type some emojis..."
-        className={`w-11/12 grow bg-transparent p-4 ${
-          isPosting && "animate-bounce"
-        }`}
+        className={`w-11/12 grow bg-transparent p-4`}
         value={input}
         onChange={(e) => setInput(e.target.value)}
         onKeyDown={({ key }) => {

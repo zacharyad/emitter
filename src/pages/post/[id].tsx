@@ -3,7 +3,6 @@ import Head from "next/head";
 import { useUser, SignInButton, SignOutButton, SignIn } from "@clerk/nextjs";
 import { api } from "~/utils/api";
 import CreatePostWizard from "~/Components/CreatePostWizard";
-import Feed from "~/Components/Feed";
 
 const PostPage: NextPage = () => {
   const { isLoaded: userLoaded, isSignedIn } = useUser();
@@ -42,6 +41,7 @@ const PostPage: NextPage = () => {
           </div>
           {/* The content Area */}
           <div>Post View</div>
+          <p>Here is where the post you just clicked on will show up</p>
         </div>
       </main>
     </>

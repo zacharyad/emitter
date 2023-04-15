@@ -4,7 +4,7 @@ import { z } from "zod";
 import { createTRPCRouter, privateProcedure, publicProcedure } from "~/server/api/trpc";
 import { Redis } from "@upstash/redis";
 import { Ratelimit } from "@upstash/ratelimit"; // for deno: see above
-import {filterUserForClient} from '../../helper'
+import {filterUserForClient} from '../../helper/filterBackendForFrontend'
 
 
 
