@@ -8,6 +8,7 @@ import { appRouter } from "~/server/api/root";
 import { prisma } from "~/server/db";
 import superjson from "superjson";
 //
+import { PageLayout } from "~/Components/layout";
 
 const ProfilePage: NextPage<{ username: string }> = ({ username }) => {
   const { data: user } = api.profileRouter.getUserByUsername.useQuery({
@@ -19,25 +20,24 @@ const ProfilePage: NextPage<{ username: string }> = ({ username }) => {
   return (
     <>
       <Head>
-        <title>{`${user?.username || "user"}'s Profile Page`}</title>
-        <meta
-          name="description"
-          content="This is a twitter clone using emojis based on tutorial to test out t3 stack"
-        />
-        <link rel="icon" href="/favicon.ico" />
+        <title>{user.username}</title>
       </Head>
-      <main className="flex h-screen justify-center">
-        {/* The content Area */}
-        <p>{`${user?.username || "user"}'s Profile Page`}</p>
-        <Image
-          src={user?.profileImageUrl}
-          alt={`Users profile image`}
-          className={`h-16 w-16 rounded-full`}
-          width={56}
-          height={56}
-          priority
-        />
-      </main>
+      <PageLayout>
+        <div className="relative h-36 bg-slate-600">
+          <Image
+            src={user.profileImageUrl}
+            alt={`${user.username ?? "unknown"}'s profile pic`}
+            width={128}
+            height={128}
+            className="absolute bottom-0 left-0 -mb-[64px] ml-4 rounded-full border-4 border-black bg-black"
+          />
+        </div>
+        <div className="h-[64px]"></div>
+        <div className="p-4 text-2xl font-bold">{`@${
+          username ?? "unknown"
+        }`}</div>
+        <div className="w-full border-b border-slate-400" />
+      </PageLayout>
     </>
   );
 };

@@ -3,7 +3,7 @@ import { useUser, SignInButton, SignOutButton } from "@clerk/nextjs";
 import { api } from "~/utils/api";
 import CreatePostWizard from "~/Components/CreatePostWizard";
 import Feed from "~/Components/Feed";
-
+import { PageLayout } from "~/Components/layout";
 const Home: NextPage = () => {
   const { isLoaded: userLoaded, isSignedIn } = useUser();
   // eagerly running this so it is cached and able to be used in the Feed Component
@@ -12,7 +12,7 @@ const Home: NextPage = () => {
   if (!userLoaded) return <div />;
 
   return (
-    <>
+    <PageLayout>
       <main className="flex h-screen justify-center">
         <div className="h-full w-screen border-x border-slate-400 md:max-w-2xl">
           <h1 className="justify-self-end text-white">Emitter App!</h1>
@@ -38,7 +38,7 @@ const Home: NextPage = () => {
           <Feed />
         </div>
       </main>
-    </>
+    </PageLayout>
   );
 };
 
