@@ -4,6 +4,7 @@ import { api } from "~/utils/api";
 import CreatePostWizard from "~/Components/CreatePostWizard";
 import Feed from "~/Components/Feed";
 import { PageLayout } from "~/Components/layout";
+
 const Home: NextPage = () => {
   const { isLoaded: userLoaded, isSignedIn } = useUser();
   // eagerly running this so it is cached and able to be used in the Feed Component

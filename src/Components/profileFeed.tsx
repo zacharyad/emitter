@@ -8,8 +8,6 @@ export const ProfileFeed = (props: { userId: string }) => {
       userId: props.userId,
     });
 
-  console.log("USerPosts: ", usersPosts);
-
   if (isLoading) return <LoadingPage />;
 
   if (!usersPosts) {

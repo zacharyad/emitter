@@ -48,7 +48,6 @@ const CreatePostWizard = () => {
   });
 
   if (!user) return null;
-  console.log(user);
 
   return (
     <div className="flex w-full gap-3 border-yellow-50">

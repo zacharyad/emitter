@@ -7,8 +7,6 @@ import { appRouter } from "~/server/api/root";
 import { prisma } from "~/server/db";
 import superjson from "superjson";
 import { PageLayout } from "~/Components/layout";
-import LoadingPage from "~/Components/loading";
-import PostView from "~/Components/PostView";
 import { ProfileFeed } from "~/Components/profileFeed";
 
 const ProfilePage: NextPage<{ username: string }> = ({ username }) => {
