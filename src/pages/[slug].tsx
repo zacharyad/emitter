@@ -2,35 +2,14 @@ import { GetStaticProps, type NextPage } from "next";
 import Head from "next/head";
 import Image from "next/image";
 import { api } from "~/utils/api";
-//
 import { createProxySSGHelpers } from "@trpc/react-query/ssg";
 import { appRouter } from "~/server/api/root";
 import { prisma } from "~/server/db";
 import superjson from "superjson";
-//
 import { PageLayout } from "~/Components/layout";
 import LoadingPage from "~/Components/loading";
 import PostView from "~/Components/PostView";
-
-const ProfileFeed = (props: { userId: string }) => {
-  const { data: usersPosts, isLoading } =
-    api.postsRouter.getPostsFromUser.useQuery({
-      userId: props.userId,
-    });
-
-  if (isLoading) return <LoadingPage />;
-
-  if (!usersPosts) {
-    return <div>User has not posted anything, unfortunatley.</div>;
-  }
-  return (
-    <div className=" flex h-full flex-col">
-      {usersPosts.map((post) => {
-        return <PostView key={post.post.id} {...post} />;
-      })}
-    </div>
-  );
-};
+import { ProfileFeed } from "~/Components/profileFeed";
 
 const ProfilePage: NextPage<{ username: string }> = ({ username }) => {
   const { data: user } = api.profileRouter.getUserByUsername.useQuery({
