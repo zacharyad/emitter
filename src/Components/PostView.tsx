@@ -23,7 +23,7 @@ const PostView = (props: postWithUser) => {
           height={56}
         />
       </Link>
-      <div className="flex flex-col">
+      <div className="flex w-full flex-col">
         <div className="flex gap-1 text-slate-300">
           <Link href={`/@${author.username}`}>
             <span>{`@${author.username} `}</span>
@@ -32,7 +32,7 @@ const PostView = (props: postWithUser) => {
             post.createdAt
           ).fromNow()}`}</span>
         </div>
-        <Link className="w-screen" href={`/post/${post.id}`}>
+        <Link href={`/post/${post.id}`}>
           <span className="w-full text-2xl">{post.content}</span>
         </Link>
       </div>
