@@ -9,8 +9,8 @@ export const PageLayout = (props: PropsWithChildren) => {
 
   return (
     <main className="overflow-none relative flex h-screen justify-center">
-      <div className="flex h-full w-full flex-col border-x border-slate-400 md:max-w-2xl">
-        <div className="absolute right-12 top-4 z-10 flex flex-col justify-between gap-6">
+      <div className="flex h-5/6 w-full flex-col border-x border-slate-400 md:max-w-2xl">
+        <div className="absolute right-6 top-2 z-10 flex flex-col justify-between gap-2">
           <Link href="/">
             <button>Feed</button>
           </Link>
