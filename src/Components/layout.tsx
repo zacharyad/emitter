@@ -5,8 +5,7 @@ import { useUser } from "@clerk/nextjs";
 export const PageLayout = (props: PropsWithChildren) => {
   const { user } = useUser();
 
-  if (!user) return <div>This user does not exist.</div>;
-  const username = `${user.username || ""}`;
+  const username = `${user?.username || ""}`;
 
   return (
     <main className="overflow-none relative flex h-screen justify-center">
