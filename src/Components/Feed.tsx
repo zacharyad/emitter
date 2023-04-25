@@ -10,6 +10,8 @@ const Feed = () => {
 
   if (!data) return <div>Somthing went wrong fetching posts</div>;
 
+  console.log("FullPost: ", data);
+
   return (
     <>
       {data.map((fullPost) => {

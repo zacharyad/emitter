@@ -1,15 +1,24 @@
-import { type NextPage } from "next";
 import Head from "next/head";
 import { useUser, SignInButton, SignOutButton, SignIn } from "@clerk/nextjs";
 import { api } from "~/utils/api";
 import CreatePostWizard from "~/Components/CreatePostWizard";
 import { PageLayout } from "~/Components/layout";
-const PostPage: NextPage = () => {
+import { GetStaticProps, type NextPage } from "next";
+import { createProxySSGHelpers } from "@trpc/react-query/ssg";
+import { appRouter } from "~/server/api/root";
+import { prisma } from "~/server/db";
+import superjson from "superjson";
+import PostView from "~/Components/PostView";
+import LoadingPage from "~/Components/loading";
+const PostPage: NextPage<{ postId: string }> = (props: { postId: string }) => {
   const { isLoaded: userLoaded, isSignedIn } = useUser();
   // eagerly running this so it is cached and able to be used in the Feed Component
-  api.postsRouter.getAll.useQuery();
+  const { data: post, isLoading } = api.postsRouter.getPostByPostId.useQuery({
+    postId: props.postId,
+  });
 
-  if (!userLoaded) return <div />;
+  if (!post || !post[0])
+    return <div> Sorry this post does not exist anymore</div>;
 
   return (
     <>
@@ -41,14 +50,37 @@ const PostPage: NextPage = () => {
                 </>
               )}
             </div>
-            {/* The content Area */}
-            <div>Post View</div>
-            <p>Here is where the post you just clicked on will show up</p>
+            <PostView {...post[0]} />
           </div>
         </main>
       </PageLayout>
     </>
   );
+};
+
+export const getStaticProps: GetStaticProps = async (context) => {
+  const ssg = createProxySSGHelpers({
+    router: appRouter,
+    ctx: { prisma, userId: null },
+    transformer: superjson,
+  });
+
+  const postId = context.params?.id;
+
+  if (typeof postId !== "string") throw new Error("No Slug");
+
+  await ssg.postsRouter.getPostByPostId.prefetch({ postId });
+
+  return {
+    props: {
+      trpcState: ssg.dehydrate(),
+      postId,
+    },
+  };
+};
+
+export const getStaticPaths = () => {
+  return { paths: [], fallback: "blocking" };
 };
 
 export default PostPage;
