@@ -32,8 +32,8 @@ const PostView = (props: postWithUser) => {
             post.createdAt
           ).fromNow()}`}</span>
         </div>
-        <Link href={`/post/${post.id}`}>
-          <span className="text-2xl">{post.content}</span>
+        <Link className="w-screen" href={`/post/${post.id}`}>
+          <span className="w-full text-2xl">{post.content}</span>
         </Link>
       </div>
     </div>
