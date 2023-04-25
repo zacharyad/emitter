@@ -21,6 +21,7 @@ const PostView = (props: postWithUser) => {
           alt={`@${author.username}'s profile picture`}
           width={56}
           height={56}
+          priority
         />
       </Link>
       <div className="flex w-full flex-col">

@@ -57,6 +57,7 @@ const CreatePostWizard = () => {
         className={`h-16 w-16 rounded-full ${isPosting ? "opacity-30" : ""}`}
         width={56}
         height={56}
+        priority
       />
       <input
         type="text"

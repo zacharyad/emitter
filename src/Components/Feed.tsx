@@ -7,10 +7,7 @@ const Feed = () => {
   const { data, isLoading: postsLoading } = api.postsRouter.getAll.useQuery();
 
   if (postsLoading) return <LoadingPage />;
-
   if (!data) return <div>Somthing went wrong fetching posts</div>;
-
-  console.log("FullPost: ", data);
 
   return (
     <>

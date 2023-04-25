@@ -4,7 +4,9 @@ import { useUser } from "@clerk/nextjs";
 
 export const PageLayout = (props: PropsWithChildren) => {
   const { user } = useUser();
-  // eagerly running this so it is cached and able to be used in the Feed Component
+
+  if (!user) return <div>This user does not exist.</div>;
+  const username = `${user.username || ""}`;
 
   return (
     <main className="overflow-none relative flex h-screen justify-center">
@@ -14,7 +16,7 @@ export const PageLayout = (props: PropsWithChildren) => {
             <button>Feed</button>
           </Link>
           {user && (
-            <Link href={`/@${user.username}`}>
+            <Link href={`/@${username}`}>
               <button>Profile</button>
             </Link>
           )}
