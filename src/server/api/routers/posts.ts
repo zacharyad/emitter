@@ -56,7 +56,7 @@ export const postsRouter = createTRPCRouter({
     }),
     getPostByPostId: publicProcedure.input(z.object({postId: z.string()}))
     .query(async ({input, ctx}) => {
-        let foundPost = await ctx.prisma.post.findMany({where: {id: input.postId}, take:100, orderBy: [{createdAt: "desc"}]} )
+        const foundPost = await ctx.prisma.post.findMany({where: {id: input.postId}, take:100, orderBy: [{createdAt: "desc"}]} )
         if(!foundPost[0]) throw new TRPCError({code: "NOT_FOUND"})
         
         return addUsersDataToPosts(foundPost)
